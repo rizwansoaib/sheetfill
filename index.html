@@ -152,17 +152,8 @@
                     <!-- Date of Birth -->
                     <div class="lg:col-span-3 group">
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Date of Birth <span class="text-red-500">*</span></label>
-                        <div class="grid grid-cols-3 gap-2">
-                            <select id="dobDay" required class="w-full px-1 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none cursor-pointer text-center shadow-sm hover:border-slate-300 transition-all">
-                                <option value="" disabled selected>DD</option>
-                            </select>
-                            <select id="dobMonth" required class="w-full px-1 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none cursor-pointer text-center shadow-sm hover:border-slate-300 transition-all">
-                                <option value="" disabled selected>MM</option>
-                            </select>
-                            <select id="dobYear" required class="w-full px-1 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none cursor-pointer text-center shadow-sm hover:border-slate-300 transition-all">
-                                <option value="" disabled selected>YYYY</option>
-                            </select>
-                        </div>
+                        <input type="date" id="dob" required 
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm text-slate-600 cursor-pointer">
                     </div>
 
                     <!-- Category -->
@@ -359,29 +350,8 @@
 
         // Initialization
         document.addEventListener('DOMContentLoaded', () => {
-            populateDateDropdowns();
             renderTable();
         });
-
-        function populateDateDropdowns() {
-            const daySel = document.getElementById('dobDay');
-            const monthSel = document.getElementById('dobMonth');
-            const yearSel = document.getElementById('dobYear');
-
-            for (let i = 1; i <= 31; i++) {
-                let val = i < 10 ? '0' + i : i;
-                daySel.innerHTML += `<option value="${val}">${val}</option>`;
-            }
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            months.forEach((m, i) => {
-                let val = (i + 1) < 10 ? '0' + (i + 1) : (i + 1);
-                monthSel.innerHTML += `<option value="${val}">${m}</option>`;
-            });
-            const currYear = new Date().getFullYear();
-            for (let i = currYear - 3; i >= currYear - 60; i--) {
-                yearSel.innerHTML += `<option value="${i}">${i}</option>`;
-            }
-        }
 
         // Handle Image Previews and Validation
         function handleFilePreview(inputId, imgId, boxId) {
@@ -438,9 +408,7 @@
             hideError();
 
             const aadhaar = document.getElementById('aadhaar').value.trim();
-            const dobDay = document.getElementById('dobDay').value;
-            const dobMonth = document.getElementById('dobMonth').value;
-            const dobYear = document.getElementById('dobYear').value;
+            const dob = document.getElementById('dob').value;
             const photoFile = document.getElementById('photoUpload').files[0];
             const sigFile = document.getElementById('sigUpload').files[0];
 
@@ -448,7 +416,7 @@
             if(aadhaar.length !== 12) {
                 return showInlineError("Aadhaar Number must be exactly 12 digits.");
             }
-            if(!dobDay || !dobMonth || !dobYear) {
+            if(!dob) {
                 return showInlineError("Please select a complete Date of Birth.");
             }
             if(!photoFile || !sigFile) {
@@ -475,7 +443,7 @@
                     mobile: document.getElementById('mobile').value.trim(),
                     pincode: document.getElementById('pincode').value.trim(),
                     address: document.getElementById('address').value.trim(),
-                    dob: `${dobDay}/${dobMonth}/${dobYear}`,
+                    dob: dob,
                     category: document.getElementById('category').value,
                     qualification: document.getElementById('qualification').value,
                     gender: document.querySelector('input[name="gender"]:checked').value,
