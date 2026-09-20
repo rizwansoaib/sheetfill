@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-50 text-slate-800">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Enrollment Portal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
+                        success: { 500: '#10b981', 600: '#059669' }
+                    },
+                    animation: {
+                        'modal-in': 'modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'check-draw': 'checkDraw 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards',
+                    },
+                    keyframes: {
+                        modalIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9) translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+                        },
+                        checkDraw: {
+                            '0%': { strokeDasharray: '48', strokeDashoffset: '48' },
+                            '100%': { strokeDasharray: '48', strokeDashoffset: '0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Animated Checkmark SVG styling */
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #10b981;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: checkDraw 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes checkDraw { 100% { stroke-dashoffset: 0; } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 relative bg-slate-50">
+
+    <header class="w-full max-w-7xl mb-8 flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center text-white text-2xl shadow-lg shadow-primary-200">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 leading-tight">EduCore Enrollment</h1>
+                <p class="text-sm text-slate-500 font-medium">New Student Registration Portal</p>
+            </div>
+        </div>
+        <div class="mt-4 md:mt-0 flex gap-3 text-sm font-semibold">
+            <div class="bg-primary-50 text-primary-700 px-5 py-2.5 rounded-xl flex items-center gap-2 border border-primary-100 shadow-sm">
+                <i class="fa-solid fa-users"></i>
+                <span id="totalStudentsCount">0 Enrolled</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-7xl grid grid-cols-1 gap-8 z-10">
+        
+        <section class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+            <div class="mb-8 border-b border-slate-100 pb-4">
+                <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus text-primary-500 bg-primary-50 p-2 rounded-lg"></i> 
+                    Student Details Form
+                </h2>
+                <p class="text-sm text-slate-500 mt-2 ml-11">Fields marked with <span class="text-red-500 font-bold">*</span> are mandatory.</p>
+            </div>
+
+            <form id="enrollmentForm" novalidate class="space-y-6">
+                
+                <!-- Personal Info Row -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Student Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="stuName" required placeholder="Full Name"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Father's Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="fatherName" required placeholder="Father's Full Name"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Mother's Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="motherName" required placeholder="Mother's Full Name"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                </div>
+
+                <!-- IDs and Contact Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Aadhaar No. <span class="text-red-500">*</span></label>
+                        <input type="number" id="aadhaar" required placeholder="12-digit Aadhaar"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">APAAR ID <span class="text-red-500">*</span></label>
+                        <input type="number" id="apaar" required placeholder="12-digit APAAR"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Mobile No. <span class="text-red-500">*</span></label>
+                        <input type="number" id="mobile" required placeholder="10-digit number"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                    <div class="group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Pin Code <span class="text-red-500">*</span></label>
+                        <input type="number" id="pincode" required placeholder="6-digit Pin"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all hover:border-slate-300 shadow-sm">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                    
+                    <!-- Date of Birth -->
+                    <div class="lg:col-span-3 group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Date of Birth <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <select id="dobDay" required class="w-full px-1 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none cursor-pointer text-center shadow-sm hover:border-slate-300 transition-all">
+                                <option value="" disabled selected>DD</option>
+                            </select>
+                            <select id="dobMonth" required class="w-full px-1 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none cursor-pointer text-center shadow-sm hover:border-slate-300 transition-all">
+                                <option value="" disabled selected>MM</option>
+                            </select>
+                            <select id="dobYear" required class="w-full px-1 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none cursor-pointer text-center shadow-sm hover:border-slate-300 transition-all">
+                                <option value="" disabled selected>YYYY</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="lg:col-span-2 group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Category <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <select id="category" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none appearance-none cursor-pointer shadow-sm hover:border-slate-300 transition-all">
+                                <option value="" disabled selected>Select</option>
+                                <option value="GENERAL">GENERAL</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-xs text-slate-400 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <!-- Qualification -->
+                    <div class="lg:col-span-3 group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Qualification <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <select id="qualification" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none appearance-none cursor-pointer shadow-sm hover:border-slate-300 transition-all">
+                                <option value="" disabled selected>Highest Qual.</option>
+                                <option value="High School">High School</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="ITI">ITI</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="B.Tech">B.Tech</option>
+                                <option value="M.Tech">M.Tech</option>
+                                <option value="PhD">PhD</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-xs text-slate-400 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <!-- Gender Radio -->
+                    <div class="lg:col-span-4 lg:pt-0 group">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Gender <span class="text-red-500">*</span></label>
+                        <div class="flex flex-wrap items-center gap-4 text-sm font-medium text-slate-600 bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm">
+                            <label class="flex items-center gap-1.5 cursor-pointer hover:text-primary-600 transition-colors">
+                                <input type="radio" name="gender" value="Male" class="w-4 h-4 text-primary-600 accent-primary-600" required> Male
+                            </label>
+                            <label class="flex items-center gap-1.5 cursor-pointer hover:text-primary-600 transition-colors">
+                                <input type="radio" name="gender" value="Female" class="w-4 h-4 text-primary-600 accent-primary-600"> Female
+                            </label>
+                            <label class="flex items-center gap-1.5 cursor-pointer hover:text-primary-600 transition-colors">
+                                <input type="radio" name="gender" value="Transgender" class="w-4 h-4 text-primary-600 accent-primary-600"> Other
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="group">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Full Address <span class="text-red-500">*</span></label>
+                    <textarea id="address" required rows="2" placeholder="House no, Street, City, State..."
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-primary-500/20 outline-none resize-none shadow-sm hover:border-slate-300 transition-all"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-200 border-dashed">
+                    <!-- Photo Upload -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-3 tracking-wide">Student Photo (.jpg) <span class="text-red-500">*</span></label>
+                        <div class="flex items-center gap-5">
+                            <div class="relative w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center overflow-hidden shrink-0 shadow-sm transition-colors" id="photoBox">
+                                <i class="fa-regular fa-user text-slate-400 text-xl"></i>
+                                <img id="photoPreview" class="hidden absolute inset-0 w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1">
+                                <input type="file" id="photoUpload" accept=".jpg, .jpeg" required 
+                                    class="block w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-white file:text-primary-700 file:shadow-sm file:border file:border-slate-200 hover:file:bg-primary-50 hover:file:border-primary-200 cursor-pointer transition-all">
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-circle-info mr-1"></i>Max size: 2MB, JPG only.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Signature Upload -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-3 tracking-wide">Student Signature (.jpg) <span class="text-red-500">*</span></label>
+                        <div class="flex items-center gap-5">
+                            <div class="relative w-28 h-16 rounded-xl border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center overflow-hidden shrink-0 shadow-sm transition-colors" id="sigBox">
+                                <i class="fa-solid fa-signature text-slate-400 text-xl"></i>
+                                <img id="sigPreview" class="hidden absolute inset-0 w-full h-full object-contain bg-white">
+                            </div>
+                            <div class="flex-1">
+                                <input type="file" id="sigUpload" accept=".jpg, .jpeg" required 
+                                    class="block w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-white file:text-primary-700 file:shadow-sm file:border file:border-slate-200 hover:file:bg-primary-50 hover:file:border-primary-200 cursor-pointer transition-all">
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-circle-info mr-1"></i>Max size: 2MB, JPG only.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Validation Alert -->
+                <div id="formAlert" class="hidden items-center p-4 mb-4 text-sm text-red-800 rounded-xl bg-red-50 border border-red-100 shadow-sm transition-all" role="alert">
+                    <i class="fa-solid fa-circle-exclamation mr-2 text-lg"></i>
+                    <span class="font-medium" id="alertText">Please fill all required fields correctly.</span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-6 flex justify-end gap-4 border-t border-slate-100">
+                    <button type="button" onclick="resetForm()" class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-100 hover:text-slate-800 transition-all focus:ring-4 focus:ring-slate-100">
+                        Clear Details
+                    </button>
+                    <button type="submit" class="px-8 py-3 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white text-sm font-bold shadow-lg shadow-primary-500/30 transition-all transform hover:-translate-y-0.5 focus:ring-4 focus:ring-primary-200 flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Registration
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-slate-100 bg-white flex justify-between items-center">
+                <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-table-list text-primary-500 bg-primary-50 p-2 rounded-lg"></i> 
+                    Recent Enrollments
+                </h3>
+            </div>
+            
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse whitespace-nowrap min-w-[950px]">
+                    <thead>
+                        <tr class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                            <th class="py-4 px-6 w-16 text-center">Sr No.</th>
+                            <th class="py-4 px-6">Enrollment Number</th>
+                            <th class="py-4 px-6">Student Name</th>
+                            <th class="py-4 px-6">Father's Name</th>
+                            <th class="py-4 px-6">Aadhaar</th>
+                            <th class="py-4 px-6 text-center">Photo</th>
+                            <th class="py-4 px-6 text-center">Signature</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody" class="divide-y divide-slate-100 text-sm">
+                        <!-- Empty State -->
+                        <tr id="emptyStateRow">
+                            <td colspan="7" class="py-20 text-center bg-white">
+                                <div class="text-primary-100 text-6xl mb-4"><i class="fa-solid fa-folder-open"></i></div>
+                                <p class="text-slate-800 font-bold text-lg">No enrollments found</p>
+                                <p class="text-slate-500 text-sm mt-1">Submit the form above to register the first student.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Dopamine UI/UX Success Popup -->
+    <div id="successModalOverlay" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0 flex items-center justify-center p-4">
+        <div id="successModalBox" class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full text-center relative overflow-hidden transform scale-95 opacity-0">
+            <!-- Decorative background elements -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-success-50 rounded-full mix-blend-multiply filter blur-2xl opacity-70"></div>
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-primary-50 rounded-full mix-blend-multiply filter blur-2xl opacity-70"></div>
+            
+            <!-- Animated Checkmark -->
+            <div class="w-24 h-24 mx-auto mb-6 flex items-center justify-center bg-success-50 rounded-full shadow-inner relative z-10">
+                <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            
+            <h3 class="text-2xl font-black text-slate-800 mb-2 relative z-10">Awesome!</h3>
+            <p class="text-slate-500 text-sm mb-6 relative z-10">Student has been enrolled successfully.</p>
+            
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-8 relative z-10 shadow-inner">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Generated Enrollment No.</p>
+                <p id="generatedEnrollmentId" class="text-2xl font-black text-primary-600 font-mono tracking-tight">E000000000</p>
+            </div>
+            
+            <button onclick="closeModal()" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all transform hover:-translate-y-0.5 active:translate-y-0 relative z-10">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let studentsData = JSON.parse(localStorage.getItem('eduCore_students')) || [];
+        let enrollmentCounter = parseInt(localStorage.getItem('eduCore_counter')) || 0;
+
+        // DOM Elements
+        const form = document.getElementById('enrollmentForm');
+        const alertBox = document.getElementById('formAlert');
+        const alertText = document.getElementById('alertText');
+        const tableBody = document.getElementById('studentsTableBody');
+        const emptyState = document.getElementById('emptyStateRow');
+        const totalCount = document.getElementById('totalStudentsCount');
+        
+        // Modal Elements
+        const modalOverlay = document.getElementById('successModalOverlay');
+        const modalBox = document.getElementById('successModalBox');
+        const generatedIdDisplay = document.getElementById('generatedEnrollmentId');
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            populateDateDropdowns();
+            renderTable();
+        });
+
+        function populateDateDropdowns() {
+            const daySel = document.getElementById('dobDay');
+            const monthSel = document.getElementById('dobMonth');
+            const yearSel = document.getElementById('dobYear');
+
+            for (let i = 1; i <= 31; i++) {
+                let val = i < 10 ? '0' + i : i;
+                daySel.innerHTML += `<option value="${val}">${val}</option>`;
+            }
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            months.forEach((m, i) => {
+                let val = (i + 1) < 10 ? '0' + (i + 1) : (i + 1);
+                monthSel.innerHTML += `<option value="${val}">${m}</option>`;
+            });
+            const currYear = new Date().getFullYear();
+            for (let i = currYear - 3; i >= currYear - 60; i--) {
+                yearSel.innerHTML += `<option value="${i}">${i}</option>`;
+            }
+        }
+
+        // Handle Image Previews and Validation
+        function handleFilePreview(inputId, imgId, boxId) {
+            document.getElementById(inputId).addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const box = document.getElementById(boxId);
+                const img = document.getElementById(imgId);
+                
+                if (file) {
+                    if (file.type !== "image/jpeg" && file.type !== "image/jpg") {
+                        showInlineError("Only .jpg / .jpeg image formats are allowed.");
+                        this.value = '';
+                        img.classList.add('hidden');
+                        box.classList.remove('border-primary-500', 'bg-primary-50');
+                        return;
+                    }
+                    if(file.size > 2 * 1024 * 1024) {
+                        showInlineError("File size must be strictly less than 2MB.");
+                        this.value = ''; 
+                        img.classList.add('hidden');
+                        box.classList.remove('border-primary-500', 'bg-primary-50');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.src = e.target.result;
+                        img.classList.remove('hidden');
+                        box.classList.add('border-primary-500', 'bg-primary-50');
+                        hideError();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    img.classList.add('hidden');
+                    box.classList.remove('border-primary-500', 'bg-primary-50');
+                }
+            });
+        }
+        handleFilePreview('photoUpload', 'photoPreview', 'photoBox');
+        handleFilePreview('sigUpload', 'sigPreview', 'sigBox');
+
+        // Convert File to Base64 for LocalStorage
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideError();
+
+            const aadhaar = document.getElementById('aadhaar').value.trim();
+            const dobDay = document.getElementById('dobDay').value;
+            const dobMonth = document.getElementById('dobMonth').value;
+            const dobYear = document.getElementById('dobYear').value;
+            const photoFile = document.getElementById('photoUpload').files[0];
+            const sigFile = document.getElementById('sigUpload').files[0];
+
+            // Strict Validations
+            if(aadhaar.length !== 12) {
+                return showInlineError("Aadhaar Number must be exactly 12 digits.");
+            }
+            if(!dobDay || !dobMonth || !dobYear) {
+                return showInlineError("Please select a complete Date of Birth.");
+            }
+            if(!photoFile || !sigFile) {
+                return showInlineError("Please upload both Photo and Signature in JPG format.");
+            }
+
+            try {
+                const photoBase64 = await fileToBase64(photoFile);
+                const sigBase64 = await fileToBase64(sigFile);
+
+                // Auto-generate Enrollment Number
+                enrollmentCounter++;
+                const enrollNo = 'E' + String(enrollmentCounter).padStart(9, '0');
+
+                // Build Data Object
+                const newStudent = {
+                    srNo: studentsData.length + 1,
+                    enrollmentNo: enrollNo,
+                    name: document.getElementById('stuName').value.trim(),
+                    fatherName: document.getElementById('fatherName').value.trim(),
+                    motherName: document.getElementById('motherName').value.trim(),
+                    aadhaar: aadhaar,
+                    apaar: document.getElementById('apaar').value.trim(),
+                    mobile: document.getElementById('mobile').value.trim(),
+                    pincode: document.getElementById('pincode').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    dob: `${dobDay}/${dobMonth}/${dobYear}`,
+                    category: document.getElementById('category').value,
+                    qualification: document.getElementById('qualification').value,
+                    gender: document.querySelector('input[name="gender"]:checked').value,
+                    photo: photoBase64,
+                    signature: sigBase64,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Persist Data
+                studentsData.push(newStudent);
+                localStorage.setItem('eduCore_students', JSON.stringify(studentsData));
+                localStorage.setItem('eduCore_counter', enrollmentCounter.toString());
+
+                // UI Updates
+                renderTable();
+                resetForm();
+                
+                // Trigger Dopamine Success UI
+                triggerSuccessDopamine(enrollNo);
+
+            } catch (err) {
+                showInlineError("An error occurred while saving the record. Try again.");
+                console.error(err);
+            }
+        });
+
+        function renderTable() {
+            totalCount.innerText = `${studentsData.length} Enrolled`;
+            
+            const rows = document.querySelectorAll('.student-data-row');
+            rows.forEach(r => r.remove());
+
+            if (studentsData.length === 0) {
+                emptyState.style.display = 'table-row';
+                return;
+            } 
+            emptyState.style.display = 'none';
+
+            // Insert records in reverse (newest top)
+            [...studentsData].reverse().forEach((student, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "student-data-row hover:bg-slate-50 transition-colors group";
+                
+                tr.innerHTML = `
+                    <td class="py-4 px-6 text-center font-semibold text-slate-400 group-hover:text-slate-600 transition-colors">${studentsData.length - index}</td>
+                    <td class="py-4 px-6">
+                        <span class="font-mono text-primary-700 font-bold bg-primary-50 px-3 py-1.5 rounded-lg border border-primary-100 shadow-sm">${student.enrollmentNo}</span>
+                    </td>
+                    <td class="py-4 px-6 font-bold text-slate-800">${escapeHTML(student.name)}</td>
+                    <td class="py-4 px-6 font-medium text-slate-600">${escapeHTML(student.fatherName)}</td>
+                    <td class="py-4 px-6 font-mono text-slate-500">${escapeHTML(student.aadhaar)}</td>
+                    <td class="py-4 px-6 text-center">
+                        <img src="${student.photo}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-sm mx-auto" alt="Photo">
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                        <img src="${student.signature}" class="h-10 w-20 object-contain border border-slate-200 bg-white rounded-lg mx-auto p-1 shadow-sm" alt="Signature">
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Dopamine Popup & Confetti Logic
+        function triggerSuccessDopamine(id) {
+            generatedIdDisplay.innerText = id;
+            
+            // Show Modal Overlay
+            modalOverlay.classList.remove('hidden');
+            // Slight delay to ensure display block has taken effect before animating opacity
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalOverlay.classList.add('opacity-100');
+                modalBox.classList.add('animate-modal-in');
+            }, 10);
+
+            // Fire Canvas Confetti from both edges
+            var duration = 3000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                // Left confetti
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#3b82f6', '#10b981', '#f59e0b', '#ec4899']
+                });
+                // Right confetti
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#3b82f6', '#10b981', '#f59e0b', '#ec4899']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('opacity-100');
+            modalOverlay.classList.add('opacity-0');
+            modalBox.classList.remove('animate-modal-in');
+            setTimeout(() => {
+                modalOverlay.classList.add('hidden');
+            }, 300);
+        }
+
+        // Helpers
+        function resetForm() {
+            form.reset();
+            document.getElementById('photoPreview').classList.add('hidden');
+            document.getElementById('photoBox').classList.remove('border-primary-500', 'bg-primary-50');
+            document.getElementById('sigPreview').classList.add('hidden');
+            document.getElementById('sigBox').classList.remove('border-primary-500', 'bg-primary-50');
+            hideError();
+        }
+
+        function showInlineError(msg) {
+            alertText.innerText = msg;
+            alertBox.classList.remove('hidden');
+            alertBox.classList.add('flex');
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function hideError() {
+            alertBox.classList.add('hidden');
+            alertBox.classList.remove('flex');
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.innerText = str;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
