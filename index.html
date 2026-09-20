@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Enrollment Portal</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -14,7 +13,8 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
-                        success: { 500: '#10b981', 600: '#059669' }
+                        success: { 500: '#10b981', 600: '#059669' },
+                        danger: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626' }
                     },
                     animation: {
                         'modal-in': 'modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -35,17 +35,14 @@
         }
     </script>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* Custom Scrollbar */
+        /* Custom Scrollbar for tables */
         .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -69,6 +66,13 @@
         }
         @keyframes stroke { 100% { stroke-dashoffset: 0; } }
         @keyframes checkDraw { 100% { stroke-dashoffset: 0; } }
+        
+        /* Checkbox styling override */
+        .course-checkbox:checked + label {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 relative bg-slate-50">
@@ -206,6 +210,31 @@
                     </div>
                 </div>
 
+                <!-- Enrolled Courses -->
+                <div class="group bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-3 tracking-wide">Enrolled Courses <span class="text-red-500">*</span> <span class="text-slate-400 normal-case font-normal ml-2">(Select at least one)</span></label>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="relative">
+                            <input type="checkbox" id="course_math" name="courses" value="Math" class="course-checkbox peer sr-only">
+                            <label for="course_math" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl cursor-pointer text-sm font-semibold text-slate-600 hover:border-primary-300 transition-all shadow-sm select-none">
+                                <i class="fa-solid fa-square-root-variable text-primary-500"></i> Math
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" id="course_science" name="courses" value="Science" class="course-checkbox peer sr-only">
+                            <label for="course_science" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl cursor-pointer text-sm font-semibold text-slate-600 hover:border-primary-300 transition-all shadow-sm select-none">
+                                <i class="fa-solid fa-flask text-success-500"></i> Science
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" id="course_arts" name="courses" value="Arts" class="course-checkbox peer sr-only">
+                            <label for="course_arts" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl cursor-pointer text-sm font-semibold text-slate-600 hover:border-primary-300 transition-all shadow-sm select-none">
+                                <i class="fa-solid fa-palette text-pink-500"></i> Arts
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Address -->
                 <div class="group">
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wide group-hover:text-primary-600 transition-colors">Full Address <span class="text-red-500">*</span></label>
@@ -274,22 +303,24 @@
             </div>
             
             <div class="overflow-x-auto custom-scrollbar">
-                <table class="w-full text-left border-collapse whitespace-nowrap min-w-[950px]">
+                <table class="w-full text-left border-collapse whitespace-nowrap min-w-[1050px]">
                     <thead>
                         <tr class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
                             <th class="py-4 px-6 w-16 text-center">Sr No.</th>
-                            <th class="py-4 px-6">Enrollment Number</th>
+                            <th class="py-4 px-6">Enrollment No.</th>
                             <th class="py-4 px-6">Student Name</th>
                             <th class="py-4 px-6">Father's Name</th>
                             <th class="py-4 px-6">Aadhaar</th>
+                            <th class="py-4 px-6">Courses</th>
                             <th class="py-4 px-6 text-center">Photo</th>
                             <th class="py-4 px-6 text-center">Signature</th>
+                            <th class="py-4 px-6 text-center w-20">Action</th>
                         </tr>
                     </thead>
                     <tbody id="studentsTableBody" class="divide-y divide-slate-100 text-sm">
                         <!-- Empty State -->
                         <tr id="emptyStateRow">
-                            <td colspan="7" class="py-20 text-center bg-white">
+                            <td colspan="9" class="py-20 text-center bg-white">
                                 <div class="text-primary-100 text-6xl mb-4"><i class="fa-solid fa-folder-open"></i></div>
                                 <p class="text-slate-800 font-bold text-lg">No enrollments found</p>
                                 <p class="text-slate-500 text-sm mt-1">Submit the form above to register the first student.</p>
@@ -302,7 +333,7 @@
     </main>
 
     <!-- Dopamine UI/UX Success Popup -->
-    <div id="successModalOverlay" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0 flex items-center justify-center p-4">
+    <div id="successModalOverlay" class="fixed inset-0 z-[100] hidden bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0 flex items-center justify-center p-4">
         <div id="successModalBox" class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full text-center relative overflow-hidden transform scale-95 opacity-0">
             <!-- Decorative background elements -->
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-success-50 rounded-full mix-blend-multiply filter blur-2xl opacity-70"></div>
@@ -330,10 +361,32 @@
         </div>
     </div>
 
+    <!-- Delete Confirmation Modal (Since browser confirm() is not allowed) -->
+    <div id="deleteModalOverlay" class="fixed inset-0 z-[100] hidden bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0 flex items-center justify-center p-4">
+        <div id="deleteModalBox" class="bg-white rounded-3xl shadow-xl p-8 max-w-sm w-full text-center relative overflow-hidden transform scale-95 opacity-0 transition-transform">
+            <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-danger-50 rounded-full shadow-inner text-danger-500 text-3xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Delete Record?</h3>
+            <p class="text-slate-500 text-sm mb-8">This action cannot be undone. Are you sure you want to remove this student's enrollment?</p>
+            
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors">
+                    Cancel
+                </button>
+                <button id="confirmDeleteBtn" class="flex-1 py-3 rounded-xl bg-danger-500 hover:bg-danger-600 text-white font-bold text-sm shadow-md shadow-danger-500/30 transition-all">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Application State
-        let studentsData = JSON.parse(localStorage.getItem('eduCore_students')) || [];
-        let enrollmentCounter = parseInt(localStorage.getItem('eduCore_counter')) || 0;
+        let studentsData = JSON.parse(localStorage.getItem('eduCore_students_v2')) || [];
+        // Keep a separate counter for IDs so deletions don't cause duplicate IDs
+        let enrollmentCounter = parseInt(localStorage.getItem('eduCore_counter_v2')) || 0;
+        let recordToDeleteIndex = null;
 
         // DOM Elements
         const form = document.getElementById('enrollmentForm');
@@ -347,6 +400,10 @@
         const modalOverlay = document.getElementById('successModalOverlay');
         const modalBox = document.getElementById('successModalBox');
         const generatedIdDisplay = document.getElementById('generatedEnrollmentId');
+        
+        const deleteModalOverlay = document.getElementById('deleteModalOverlay');
+        const deleteModalBox = document.getElementById('deleteModalBox');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
         // Initialization
         document.addEventListener('DOMContentLoaded', () => {
@@ -411,13 +468,20 @@
             const dob = document.getElementById('dob').value;
             const photoFile = document.getElementById('photoUpload').files[0];
             const sigFile = document.getElementById('sigUpload').files[0];
+            
+            // Extract Checkboxes
+            const selectedCoursesElements = document.querySelectorAll('input[name="courses"]:checked');
+            const selectedCourses = Array.from(selectedCoursesElements).map(cb => cb.value);
 
             // Strict Validations
             if(aadhaar.length !== 12) {
                 return showInlineError("Aadhaar Number must be exactly 12 digits.");
             }
             if(!dob) {
-                return showInlineError("Please select a complete Date of Birth.");
+                return showInlineError("Please select a valid Date of Birth.");
+            }
+            if(selectedCourses.length === 0) {
+                return showInlineError("Please select at least one Enrolled Course (Math, Science, or Arts).");
             }
             if(!photoFile || !sigFile) {
                 return showInlineError("Please upload both Photo and Signature in JPG format.");
@@ -427,13 +491,13 @@
                 const photoBase64 = await fileToBase64(photoFile);
                 const sigBase64 = await fileToBase64(sigFile);
 
-                // Auto-generate Enrollment Number
+                // Auto-generate Enrollment Number (e.g. E000000001)
                 enrollmentCounter++;
                 const enrollNo = 'E' + String(enrollmentCounter).padStart(9, '0');
 
                 // Build Data Object
                 const newStudent = {
-                    srNo: studentsData.length + 1,
+                    id: Date.now(), // Unique identifier for deletion
                     enrollmentNo: enrollNo,
                     name: document.getElementById('stuName').value.trim(),
                     fatherName: document.getElementById('fatherName').value.trim(),
@@ -447,6 +511,7 @@
                     category: document.getElementById('category').value,
                     qualification: document.getElementById('qualification').value,
                     gender: document.querySelector('input[name="gender"]:checked').value,
+                    courses: selectedCourses,
                     photo: photoBase64,
                     signature: sigBase64,
                     timestamp: new Date().toISOString()
@@ -454,8 +519,8 @@
 
                 // Persist Data
                 studentsData.push(newStudent);
-                localStorage.setItem('eduCore_students', JSON.stringify(studentsData));
-                localStorage.setItem('eduCore_counter', enrollmentCounter.toString());
+                localStorage.setItem('eduCore_students_v2', JSON.stringify(studentsData));
+                localStorage.setItem('eduCore_counter_v2', enrollmentCounter.toString());
 
                 // UI Updates
                 renderTable();
@@ -484,22 +549,43 @@
 
             // Insert records in reverse (newest top)
             [...studentsData].reverse().forEach((student, index) => {
+                // Calculate display Sr No based on reverse order
+                const displaySrNo = studentsData.length - index; 
+                // Actual array index mapping for deletion
+                const actualIndex = studentsData.length - 1 - index;
+                
+                // Format courses into badges
+                const courseBadges = student.courses.map(course => {
+                    let color = 'bg-slate-100 text-slate-600 border-slate-200';
+                    if(course === 'Math') color = 'bg-blue-50 text-blue-600 border-blue-100';
+                    if(course === 'Science') color = 'bg-emerald-50 text-emerald-600 border-emerald-100';
+                    if(course === 'Arts') color = 'bg-pink-50 text-pink-600 border-pink-100';
+                    
+                    return `<span class="inline-block px-2 py-1 text-xs font-bold rounded-md border ${color} mr-1 mb-1 shadow-sm">${escapeHTML(course)}</span>`;
+                }).join('');
+
                 const tr = document.createElement('tr');
                 tr.className = "student-data-row hover:bg-slate-50 transition-colors group";
                 
                 tr.innerHTML = `
-                    <td class="py-4 px-6 text-center font-semibold text-slate-400 group-hover:text-slate-600 transition-colors">${studentsData.length - index}</td>
+                    <td class="py-4 px-6 text-center font-semibold text-slate-400 group-hover:text-slate-600 transition-colors">${displaySrNo}</td>
                     <td class="py-4 px-6">
                         <span class="font-mono text-primary-700 font-bold bg-primary-50 px-3 py-1.5 rounded-lg border border-primary-100 shadow-sm">${student.enrollmentNo}</span>
                     </td>
                     <td class="py-4 px-6 font-bold text-slate-800">${escapeHTML(student.name)}</td>
                     <td class="py-4 px-6 font-medium text-slate-600">${escapeHTML(student.fatherName)}</td>
                     <td class="py-4 px-6 font-mono text-slate-500">${escapeHTML(student.aadhaar)}</td>
+                    <td class="py-4 px-6 min-w-[120px] whitespace-normal">${courseBadges}</td>
                     <td class="py-4 px-6 text-center">
                         <img src="${student.photo}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-sm mx-auto" alt="Photo">
                     </td>
                     <td class="py-4 px-6 text-center">
                         <img src="${student.signature}" class="h-10 w-20 object-contain border border-slate-200 bg-white rounded-lg mx-auto p-1 shadow-sm" alt="Signature">
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                        <button onclick="requestDelete(${actualIndex})" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-danger-600 hover:bg-danger-50 hover:border-danger-200 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-danger-500/20" title="Delete Record">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </td>
                 `;
                 tableBody.appendChild(tr);
@@ -512,7 +598,6 @@
             
             // Show Modal Overlay
             modalOverlay.classList.remove('hidden');
-            // Slight delay to ensure display block has taken effect before animating opacity
             setTimeout(() => {
                 modalOverlay.classList.remove('opacity-0');
                 modalOverlay.classList.add('opacity-100');
@@ -555,6 +640,38 @@
                 modalOverlay.classList.add('hidden');
             }, 300);
         }
+
+        // Custom Delete Confirmation Flow
+        function requestDelete(index) {
+            recordToDeleteIndex = index;
+            deleteModalOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                deleteModalOverlay.classList.remove('opacity-0');
+                deleteModalOverlay.classList.add('opacity-100');
+                deleteModalBox.classList.remove('scale-95');
+                deleteModalBox.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeDeleteModal() {
+            deleteModalOverlay.classList.remove('opacity-100');
+            deleteModalOverlay.classList.add('opacity-0');
+            deleteModalBox.classList.remove('scale-100');
+            deleteModalBox.classList.add('scale-95');
+            setTimeout(() => {
+                deleteModalOverlay.classList.add('hidden');
+                recordToDeleteIndex = null;
+            }, 300);
+        }
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            if(recordToDeleteIndex !== null) {
+                studentsData.splice(recordToDeleteIndex, 1);
+                localStorage.setItem('eduCore_students_v2', JSON.stringify(studentsData));
+                renderTable();
+                closeDeleteModal();
+            }
+        });
 
         // Helpers
         function resetForm() {
