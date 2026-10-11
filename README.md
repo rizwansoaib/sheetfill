@@ -4,6 +4,11 @@
 
 SheetFill is a Chrome extension designed to connect your **Excel/CSV spreadsheet data with web forms**. Instead of repeatedly switching between a spreadsheet and browser, copying values, and pasting them into individual fields, SheetFill helps you map web-form fields, create a matching spreadsheet template, load your data, select a row, and fill the mapped fields.
 
+
+
+[Watch the Sheetfill Extension Demo on YouTube](https://www.youtube.com/embed/Ob5rrll9AGc)
+
+
 ## 🚀 How SheetFill Works
 
 SheetFill follows a simple workflow:
