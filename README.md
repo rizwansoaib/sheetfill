@@ -274,4 +274,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 This project is Open Source. Ensure to check the repository for specific license details.
 
 ---
-**Keywords:** `Excel form filler`, `Excel autofill`, `CSV form filler`, `web form filler`, `Excel to web form`, `spreadsheet form filler`, `web form automation`, `Excel data entry`, `CSV data entry`, `form autofill`, `browser form filler`, `spreadsheet automation`, `Excel web form`, `data entry extension`
+**Keywords:** `Excel form filler`, `Excel autofill`, `CSV form filler`, `web form filler`, `Excel to web form`, `spreadsheet form filler`, `web form automation`, `Excel data entry`, `CSV data entry`, `form autofill`, `browser form filler`, `spreadsheet automation`, `Excel web form`, `data entry extension`, `XLSX to web form`, `bulk form filler Chrome extension`, `mail merge for web forms`, `Google Sheets to web form`, `student enrollment form automation`, `HR onboarding form filler`, `CRM lead entry automation`, `no-code form automation tool`, `free Chrome extension for data entry`, `repetitive data entry software`
