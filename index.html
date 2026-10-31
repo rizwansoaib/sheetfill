@@ -106,7 +106,7 @@
                 </div>
                 <div>
                     <h2 class="text-lg md:text-xl font-bold flex items-center gap-2 flex-wrap">
-                        Try SheetFill on this Enrollment Form
+                        Still copy-pasting into this form? There's a faster way.
                         <span class="bg-white/20 text-[11px] uppercase tracking-wide font-semibold px-2 py-0.5 rounded-full">Demo Page</span>
                     </h2>
                     <p class="text-sm text-primary-50/90 mt-1 max-w-xl">
@@ -125,6 +125,14 @@
                     <i class="fa-solid fa-arrow-right text-sm transition-transform duration-300 group-hover:translate-x-1"></i>
                 </a>
             </div>
+        </div>
+
+        <!-- Trust strip -->
+        <div class="relative flex flex-wrap items-center justify-center gap-x-6 gap-y-2 px-6 pb-4 text-[12px] font-semibold text-primary-50/90">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> Free Forever</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-code-branch"></i> Open Source</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-slash"></i> No Sign-up Required</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt"></i> Works in Seconds</span>
         </div>
 
         <!-- Bouncing arrow pointing down at the form -->
@@ -412,23 +420,55 @@
     </main>
 
     <!-- Footer -->
-    <footer class="w-full max-w-7xl mt-10 pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-        <div class="flex items-center gap-2">
-            <i class="fa-solid fa-table-cells text-primary-500"></i>
-            <span>Built as a demo page for <span class="font-semibold text-slate-700">SheetFill</span> &mdash; Fill Web Forms from Excel &amp; CSV.</span>
+    <footer class="w-full max-w-7xl mt-10 pt-8 border-t border-slate-200 flex flex-col gap-4 text-sm text-slate-500">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-table-cells text-primary-500"></i>
+                <span>Built as a demo page for <span class="font-semibold text-slate-700">SheetFill</span> &mdash; Fill Web Forms from Excel &amp; CSV.</span>
+            </div>
+            <div class="flex items-center gap-4 font-medium">
+                <a href="https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-primary-600 hover:text-primary-700 transition-colors">
+                    <i class="fa-brands fa-chrome"></i> Chrome Extension
+                </a>
+                <a href="https://github.com/rizwansoaib/sheetfill" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-slate-700 transition-colors">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+                <a href="privacy.html" class="flex items-center gap-1.5 hover:text-slate-700 transition-colors">
+                    <i class="fa-solid fa-shield-halved"></i> Privacy
+                </a>
+            </div>
         </div>
-        <div class="flex items-center gap-4 font-medium">
-            <a href="https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-primary-600 hover:text-primary-700 transition-colors">
-                <i class="fa-brands fa-chrome"></i> Chrome Extension
+        <div class="flex items-center justify-center md:justify-end gap-3 pt-2 border-t border-slate-100">
+            <span class="text-xs font-semibold uppercase tracking-wide text-slate-400">Like it? Share it</span>
+            <a href="https://twitter.com/intent/tweet?text=SheetFill%20fills%20web%20forms%20straight%20from%20Excel%2FCSV%20%E2%80%94%20no%20more%20copy-paste%20data%20entry!&url=https://github.com/rizwansoaib/sheetfill"
+               target="_blank" rel="noopener noreferrer"
+               class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-900 hover:text-white transition-colors" title="Share on X">
+                <i class="fa-brands fa-x-twitter"></i>
             </a>
-            <a href="https://github.com/rizwansoaib/sheetfill" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-slate-700 transition-colors">
-                <i class="fa-brands fa-github"></i> GitHub
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/rizwansoaib/sheetfill"
+               target="_blank" rel="noopener noreferrer"
+               class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-primary-600 hover:text-white transition-colors" title="Share on LinkedIn">
+                <i class="fa-brands fa-linkedin-in"></i>
             </a>
-            <a href="privacy.html" class="flex items-center gap-1.5 hover:text-slate-700 transition-colors">
-                <i class="fa-solid fa-shield-halved"></i> Privacy
+            <a href="https://github.com/rizwansoaib/sheetfill/stargazers"
+               target="_blank" rel="noopener noreferrer"
+               class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-amber-400 hover:text-white transition-colors" title="Star on GitHub">
+                <i class="fa-solid fa-star"></i>
             </a>
         </div>
     </footer>
+
+    <!-- Floating sticky CTA -->
+    <a href="https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc"
+       target="_blank" rel="noopener noreferrer"
+       class="group fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-primary-600 hover:bg-primary-700 text-white font-bold pl-4 pr-5 py-3.5 rounded-full shadow-xl shadow-primary-600/30 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200">
+        <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+        </span>
+        <i class="fa-brands fa-chrome text-lg"></i>
+        <span class="hidden sm:inline">Install SheetFill</span>
+    </a>
 
     <!-- Dopamine UI/UX Success Popup -->
     <div id="successModalOverlay" class="fixed inset-0 z-[100] hidden bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0 flex items-center justify-center p-4">
