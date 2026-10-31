@@ -136,6 +136,44 @@
         </div>
     </section>
 
+    <!-- How SheetFill Works -->
+    <section class="w-full max-w-7xl mb-8 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                <i class="fa-solid fa-diagram-project text-primary-500 bg-primary-50 p-2 rounded-lg"></i>
+                How SheetFill Works
+            </h2>
+            <p class="text-sm text-slate-500 mt-2 ml-11">Map Fields &rarr; Get Template &rarr; Add Data &rarr; Load Data &rarr; Select Row &rarr; Fill Current Row</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-primary-300 hover:shadow-md transition-all">
+                <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm mb-3 shadow-sm">1</div>
+                <h3 class="font-bold text-sm text-slate-800 mb-1">Smart Auto Selection</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">Open this page and let SheetFill detect and map the supported form fields automatically.</p>
+            </div>
+            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-primary-300 hover:shadow-md transition-all">
+                <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm mb-3 shadow-sm">2</div>
+                <h3 class="font-bold text-sm text-slate-800 mb-1">Download Template</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">Get a spreadsheet template generated from the fields you just mapped.</p>
+            </div>
+            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-primary-300 hover:shadow-md transition-all">
+                <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm mb-3 shadow-sm">3</div>
+                <h3 class="font-bold text-sm text-slate-800 mb-1">Load Your Data</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">Fill in the template with your records and load the .XLS, .XLSX or .CSV file.</p>
+            </div>
+            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-primary-300 hover:shadow-md transition-all">
+                <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm mb-3 shadow-sm">4</div>
+                <h3 class="font-bold text-sm text-slate-800 mb-1">Select a Row</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">Preview your spreadsheet and choose the record you want to enter next.</p>
+            </div>
+            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-primary-300 hover:shadow-md transition-all">
+                <div class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm mb-3 shadow-sm">5</div>
+                <h3 class="font-bold text-sm text-slate-800 mb-1">Fill Current Row</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">SheetFill writes the selected row straight into the mapped fields below.</p>
+            </div>
+        </div>
+    </section>
+
     <main class="w-full max-w-7xl grid grid-cols-1 gap-8 z-10">
         
         <section class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
@@ -372,6 +410,25 @@
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-7xl mt-10 pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-table-cells text-primary-500"></i>
+            <span>Built as a demo page for <span class="font-semibold text-slate-700">SheetFill</span> &mdash; Fill Web Forms from Excel &amp; CSV.</span>
+        </div>
+        <div class="flex items-center gap-4 font-medium">
+            <a href="https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-primary-600 hover:text-primary-700 transition-colors">
+                <i class="fa-brands fa-chrome"></i> Chrome Extension
+            </a>
+            <a href="https://github.com/rizwansoaib/sheetfill" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-slate-700 transition-colors">
+                <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            <a href="privacy.html" class="flex items-center gap-1.5 hover:text-slate-700 transition-colors">
+                <i class="fa-solid fa-shield-halved"></i> Privacy
+            </a>
+        </div>
+    </footer>
 
     <!-- Dopamine UI/UX Success Popup -->
     <div id="successModalOverlay" class="fixed inset-0 z-[100] hidden bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0 flex items-center justify-center p-4">
