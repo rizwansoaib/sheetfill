@@ -4,15 +4,40 @@
 
 **Fill Web Forms from Excel & CSV**
 
+### 🛑 Stop copy-pasting rows by hand. Let your spreadsheet fill the form for you.
+
 *Turn spreadsheet data into web-form entries with a simple, structured workflow.*
 
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc)
 [![Open Source](https://img.shields.io/badge/Open_Source-%E2%9D%A4-red?style=for-the-badge)](#)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](http://makeapullrequest.com)
+[![Star on GitHub](https://img.shields.io/github/stars/rizwansoaib/sheetfill?style=for-the-badge&color=f9d71c&logo=github)](https://github.com/rizwansoaib/sheetfill/stargazers)
+
+**[⬇️ Install the Free Extension](https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc)** &nbsp;•&nbsp; **[⭐ Star this Repo](https://github.com/rizwansoaib/sheetfill/stargazers)** &nbsp;•&nbsp; **[🐦 Share on X](https://twitter.com/intent/tweet?text=SheetFill%20fills%20web%20forms%20straight%20from%20Excel%2FCSV%20%E2%80%94%20no%20more%20copy-paste%20data%20entry!&url=https://github.com/rizwansoaib/sheetfill)**
 
 [Installation](#-installation) • [How It Works](#-how-sheetfill-works) • [Features](#-key-features) • [Limitations](#️-current-limitations) • [Privacy](#-privacy--data-handling)
 
 </div>
+
+---
+
+> ### ⚡ The old way vs. the SheetFill way
+>
+> | 😫 Without SheetFill | 🚀 With SheetFill |
+> | --- | --- |
+> | Open spreadsheet → copy cell → switch tab → paste → repeat | Load spreadsheet once → select a row → **Fill Current Row** |
+> | One typo away from a mismatched field | Fields are mapped once, reused every time |
+> | Minutes per record | Seconds per record |
+
+---
+
+## 📥 Installation
+
+1. Click **[Add SheetFill to Chrome](https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc)** on the Chrome Web Store.
+2. Select **Add to Chrome** and confirm the permissions.
+3. Open any webpage with a form, click the SheetFill icon, and start mapping fields.
+
+No account, no sign-up, and no cloud upload required to use the core workflow.
 
 ---
 
@@ -223,6 +248,20 @@ Use:
 SheetFill helps turn repetitive spreadsheet-to-web-form entry into a more structured workflow. Install SheetFill and simplify repetitive spreadsheet-to-web-form data entry.
 
 <br>
+
+---
+
+<div align="center">
+
+## 📣 Enjoying SheetFill?
+
+**[⭐ Star this repo](https://github.com/rizwansoaib/sheetfill/stargazers)** to help others discover it, **[🧩 install the extension](https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc)**, and tell a teammate who's still copy-pasting spreadsheet data into forms.
+
+[![Share on X](https://img.shields.io/badge/Share-on_X-000000?style=for-the-badge&logo=x)](https://twitter.com/intent/tweet?text=SheetFill%20fills%20web%20forms%20straight%20from%20Excel%2FCSV%20%E2%80%94%20no%20more%20copy-paste%20data%20entry!&url=https://github.com/rizwansoaib/sheetfill)
+[![Share on LinkedIn](https://img.shields.io/badge/Share-on_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/rizwansoaib/sheetfill)
+[![Watch Demo](https://img.shields.io/badge/Watch-Demo_Video-FF0000?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=Ob5rrll9AGc)
+
+</div>
 
 ---
 
