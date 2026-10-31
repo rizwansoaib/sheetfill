@@ -3,8 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Enrollment Portal</title>
-    
+
+    <!-- Primary SEO Meta Tags -->
+    <title>SheetFill Demo: Fill This Student Enrollment Form from Excel/CSV | Chrome Extension</title>
+    <meta name="title" content="SheetFill Demo: Fill This Student Enrollment Form from Excel/CSV | Chrome Extension">
+    <meta name="description" content="Live demo form for SheetFill, the free Chrome extension that autofills web forms from Excel, XLSX, and CSV spreadsheets. Install SheetFill, map the fields on this Student Enrollment Portal, load your spreadsheet, and fill the whole form in one click.">
+    <meta name="keywords" content="SheetFill, fill web form from Excel, Excel to web form, CSV form filler, autofill form from spreadsheet, Chrome extension form filler, web form automation, data entry extension, Excel autofill, spreadsheet to web form">
+    <meta name="author" content="SheetFill">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://rizwansoaib.github.io/sheetfill/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rizwansoaib.github.io/sheetfill/">
+    <meta property="og:site_name" content="SheetFill">
+    <meta property="og:title" content="SheetFill Demo: Fill This Student Enrollment Form from Excel/CSV">
+    <meta property="og:description" content="Install the free SheetFill Chrome extension and test it live on this Student Enrollment form. Map fields once, load your Excel/CSV data, and auto-fill every row.">
+    <meta property="og:image" content="https://img.youtube.com/vi/Ob5rrll9AGc/maxresdefault.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://rizwansoaib.github.io/sheetfill/">
+    <meta name="twitter:title" content="SheetFill Demo: Fill This Student Enrollment Form from Excel/CSV">
+    <meta name="twitter:description" content="Install the free SheetFill Chrome extension and test it live on this Student Enrollment form. Map fields once, load your Excel/CSV data, and auto-fill every row.">
+    <meta name="twitter:image" content="https://img.youtube.com/vi/Ob5rrll9AGc/maxresdefault.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232563eb'/%3E%3Ctext x='50%25' y='58%25' font-size='13' font-family='Arial, sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3ESF%3C/text%3E%3C/svg%3E">
+
+    <!-- Structured Data: SoftwareApplication (SEO + AEO) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SheetFill",
+        "applicationCategory": "BrowserApplication",
+        "operatingSystem": "Chrome",
+        "url": "https://chromewebstore.google.com/detail/sheetfill/lkiabppnfbmbjklabmgleekhhkokaopc",
+        "description": "SheetFill is a free Chrome extension that fills web forms automatically from Excel (XLS/XLSX) and CSV spreadsheet data, removing repetitive copy-paste data entry.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "featureList": [
+            "Smart Auto Selection of web form fields",
+            "Downloadable spreadsheet template based on mapped fields",
+            "XLS, XLSX and CSV import",
+            "Row and column selection with preview",
+            "Fill Current Row into mapped web form fields"
+        ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage (AEO - Answer Engine Optimization) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is SheetFill?",
+                "acceptedAnswer": { "@type": "Answer", "text": "SheetFill is a free Chrome extension that connects your Excel or CSV spreadsheet data to web forms, so you can fill out forms automatically instead of copying and pasting each value by hand." }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I fill a web form from an Excel or CSV file?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Install SheetFill, open the webpage with the form, use Smart Auto Selection to map the fields, download the generated spreadsheet template, add your data, load the file back into SheetFill, select a row, and click Fill Current Row." }
+            },
+            {
+                "@type": "Question",
+                "name": "Is SheetFill free to use?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Yes. SheetFill's core workflow is free, open source, and does not require creating an account." }
+            },
+            {
+                "@type": "Question",
+                "name": "Which spreadsheet formats does SheetFill support?",
+                "acceptedAnswer": { "@type": "Answer", "text": "SheetFill supports .XLS, .XLSX, and .CSV spreadsheet files." }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I test SheetFill on this page?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Yes. This Student Enrollment Portal is a live demo form built specifically for testing SheetFill's field mapping and autofill workflow." }
+            }
+        ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -336,7 +418,7 @@
                         <div class="flex items-center gap-5">
                             <div class="relative w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center overflow-hidden shrink-0 shadow-sm transition-colors" id="photoBox">
                                 <i class="fa-regular fa-user text-slate-400 text-xl"></i>
-                                <img id="photoPreview" class="hidden absolute inset-0 w-full h-full object-cover">
+                                <img id="photoPreview" alt="Student photograph preview" class="hidden absolute inset-0 w-full h-full object-cover">
                             </div>
                             <div class="flex-1">
                                 <input type="file" id="photoUpload" accept=".jpg, .jpeg" required 
@@ -352,7 +434,7 @@
                         <div class="flex items-center gap-5">
                             <div class="relative w-28 h-16 rounded-xl border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center overflow-hidden shrink-0 shadow-sm transition-colors" id="sigBox">
                                 <i class="fa-solid fa-signature text-slate-400 text-xl"></i>
-                                <img id="sigPreview" class="hidden absolute inset-0 w-full h-full object-contain bg-white">
+                                <img id="sigPreview" alt="Student signature preview" class="hidden absolute inset-0 w-full h-full object-contain bg-white">
                             </div>
                             <div class="flex-1">
                                 <input type="file" id="sigUpload" accept=".jpg, .jpeg" required 
@@ -418,6 +500,54 @@
             </div>
         </section>
     </main>
+
+    <!-- FAQ Section (SEO + AEO) -->
+    <section class="w-full max-w-7xl mt-8 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                <i class="fa-solid fa-circle-question text-primary-500 bg-primary-50 p-2 rounded-lg"></i>
+                Frequently Asked Questions
+            </h2>
+            <p class="text-sm text-slate-500 mt-2 ml-11">Common questions about SheetFill and this demo form.</p>
+        </div>
+        <div class="space-y-3">
+            <details class="group bg-slate-50 border border-slate-200 rounded-2xl p-5 open:bg-primary-50/40 open:border-primary-200 transition-colors">
+                <summary class="font-bold text-sm text-slate-800 cursor-pointer list-none flex items-center justify-between gap-3">
+                    What is SheetFill?
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="text-sm text-slate-600 mt-3 leading-relaxed">SheetFill is a free Chrome extension that connects your Excel or CSV spreadsheet data to web forms, so you can fill out forms automatically instead of copying and pasting each value by hand.</p>
+            </details>
+            <details class="group bg-slate-50 border border-slate-200 rounded-2xl p-5 open:bg-primary-50/40 open:border-primary-200 transition-colors">
+                <summary class="font-bold text-sm text-slate-800 cursor-pointer list-none flex items-center justify-between gap-3">
+                    How do I fill a web form from an Excel or CSV file?
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="text-sm text-slate-600 mt-3 leading-relaxed">Install SheetFill, open the webpage with the form, use Smart Auto Selection to map the fields, download the generated spreadsheet template, add your data, load the file back into SheetFill, select a row, and click Fill Current Row.</p>
+            </details>
+            <details class="group bg-slate-50 border border-slate-200 rounded-2xl p-5 open:bg-primary-50/40 open:border-primary-200 transition-colors">
+                <summary class="font-bold text-sm text-slate-800 cursor-pointer list-none flex items-center justify-between gap-3">
+                    Is SheetFill free to use?
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="text-sm text-slate-600 mt-3 leading-relaxed">Yes. SheetFill's core workflow is free, open source, and does not require creating an account.</p>
+            </details>
+            <details class="group bg-slate-50 border border-slate-200 rounded-2xl p-5 open:bg-primary-50/40 open:border-primary-200 transition-colors">
+                <summary class="font-bold text-sm text-slate-800 cursor-pointer list-none flex items-center justify-between gap-3">
+                    Which spreadsheet formats does SheetFill support?
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="text-sm text-slate-600 mt-3 leading-relaxed">SheetFill supports .XLS, .XLSX, and .CSV spreadsheet files.</p>
+            </details>
+            <details class="group bg-slate-50 border border-slate-200 rounded-2xl p-5 open:bg-primary-50/40 open:border-primary-200 transition-colors">
+                <summary class="font-bold text-sm text-slate-800 cursor-pointer list-none flex items-center justify-between gap-3">
+                    Can I test SheetFill on this page?
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="text-sm text-slate-600 mt-3 leading-relaxed">Yes. This Student Enrollment Portal is a live demo form built specifically for testing SheetFill's field mapping and autofill workflow.</p>
+            </details>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="w-full max-w-7xl mt-10 pt-8 border-t border-slate-200 flex flex-col gap-4 text-sm text-slate-500">
